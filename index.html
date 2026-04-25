@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KITT BOATS - база новичка отдела продаж</title>
+  <style>
+    :root {
+      --ink: #132229;
+      --muted: #667782;
+      --line: #d9e4e8;
+      --paper: #ffffff;
+      --soft: #eef7f8;
+      --deep: #0d3942;
+      --brand: #0e7b87;
+      --brand-2: #1595a3;
+      --accent: #e1533f;
+      --accent-2: #ffb347;
+      --ok: #1e8f5a;
+      --warn: #c57c16;
+      --bad: #bd3a30;
+      --shadow: 0 18px 50px rgba(13, 57, 66, .14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(14,123,135,.10), rgba(225,83,63,.08) 45%, rgba(255,179,71,.10)),
+        #f6f9fa;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      color: #fff;
+      background:
+        linear-gradient(155deg, rgba(225,83,63,.32), transparent 38%),
+        linear-gradient(135deg, #082a31, #0f6e79 56%, #0b3f49);
+      overflow: auto;
+    }
+
+    .brand {
+      padding-bottom: 22px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.18);
+    }
+
+    .brand b {
+      display: block;
+      font-size: 25px;
+      letter-spacing: .04em;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,.74);
+      font-size: 13px;
+    }
+
+    nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    nav a {
+      padding: 10px 11px;
+      border-radius: 7px;
+      color: rgba(255,255,255,.88);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,.12);
+    }
+
+    .side-note {
+      margin-top: 24px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.84);
+      font-size: 13px;
+    }
+
+    main {
+      padding: 34px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      border-radius: 8px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(9,47,55,.95), rgba(15,123,135,.94) 52%, rgba(225,83,63,.88)),
+        #0b4953;
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -90px;
+      width: 300px;
+      height: 220px;
+      border: 1px solid rgba(255,255,255,.2);
+      transform: rotate(-14deg);
+    }
+
+    .hero h1 {
+      position: relative;
+      max-width: 920px;
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      position: relative;
+      max-width: 870px;
+      margin: 16px 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: 18px;
+    }
+
+    .chips {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.23);
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.9);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    section,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 10px 30px rgba(19,34,41,.05);
+    }
+
+    section {
+      grid-column: 1 / -1;
+      padding: 24px;
+      scroll-margin-top: 18px;
+    }
+
+    .half { grid-column: span 6; }
+    .third { grid-column: span 4; }
+    .wide { grid-column: span 8; }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    h3 {
+      margin: 0 0 9px;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 9px 0 0; padding-left: 21px; }
+    li { margin: 5px 0; }
+
+    .lead {
+      color: var(--muted);
+      max-width: 920px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fff, #f7fbfc);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--deep);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tag.red { background: #fff0ed; color: var(--bad); }
+    .tag.gold { background: #fff5df; color: var(--warn); }
+    .tag.green { background: #e9f7ef; color: var(--ok); }
+
+    .model-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .model-list span {
+      padding: 7px 10px;
+      border-radius: 7px;
+      background: #102f37;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .quote {
+      padding: 16px;
+      border-left: 4px solid var(--accent);
+      background: #fff7f4;
+      border-radius: 8px;
+      color: #44241f;
+      font-weight: 600;
+    }
+
+    .formula {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .formula span {
+      padding: 9px 11px;
+      border-radius: 7px;
+      background: var(--deep);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .do-dont .yes { border-top: 4px solid var(--ok); }
+    .do-dont .no { border-top: 4px solid var(--bad); }
+
+    .script {
+      padding: 14px;
+      border-radius: 8px;
+      background: #0f2f37;
+      color: #eefbfc;
+      font-weight: 600;
+    }
+
+    .script + .script { margin-top: 10px; }
+
+    .checklist {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    label.check {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--brand);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--deep);
+      color: #fff;
+    }
+
+    .warning {
+      padding: 14px;
+      border: 1px solid #f0c36b;
+      border-radius: 8px;
+      background: #fff7e6;
+      color: #553d0f;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 18px;
+      padding: 18px 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .layout { display: block; }
+      aside {
+        position: static;
+        height: auto;
+      }
+      nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      main { padding: 18px; }
+      .hero { padding: 24px; }
+      .hero h1 { font-size: 30px; }
+      .half, .third, .wide { grid-column: 1 / -1; }
+      .cards, .do-dont { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      aside { display: none; }
+      .layout { display: block; }
+      main { padding: 0; }
+      section, .hero { break-inside: avoid; box-shadow: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <b>KITT BOATS</b>
+        <span>База новичка отдела продаж</span>
+      </div>
+      <nav>
+        <a href="#start">1. Суть</a>
+        <a href="#client">2. Клиент</a>
+        <a href="#models">3. Модели</a>
+        <a href="#why">4. Почему KITT</a>
+        <a href="#competitors">5. Конкуренты</a>
+        <a href="#objections">6. Возражения</a>
+        <a href="#dontpromise">7. Нельзя обещать</a>
+        <a href="#dialog">8. Диалог</a>
+        <a href="#levers">9. Рычаги</a>
+        <a href="#mistakes">10. Ошибки</a>
+        <a href="#check">11. Проверка</a>
+      </nav>
+      <div class="side-note">
+        Цель: за один заход понять базу, не стать экспертом по всем ТТХ. Точные характеристики сверяются с сайтом и актуальными таблицами.
+      </div>
+    </aside>
+
+    <main>
+      <div class="hero" id="start">
+        <h1>Продажа KITT BOATS: база, которую новичок должен понять первой</h1>
+        <p>Мы продаем не просто ПВХ-лодку. Мы продаем завод напрямую, крафтовый подход, доверие через отзывы и конкретное решение под рыбалку, охоту, семью и реальные условия клиента.</p>
+        <div class="chips">
+          <span class="chip">Крафтовые лодки ПВХ</span>
+          <span class="chip">Средний сегмент</span>
+          <span class="chip">Завод напрямую</span>
+          <span class="chip">Экспертная продажа</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="half" id="client">
+          <span class="tag">Кто покупает</span>
+          <h2>Базовый клиент</h2>
+          <p class="lead">Обычно это рыбак или охотник, мужчина примерно 45 лет, средний ценовой сегмент. Ему важны практичность, надежность и понятная польза, а не пафос ради пафоса.</p>
+          <ul>
+            <li>Говорим простым языком пользы: где ходит, сколько груза, какой мотор, как возит.</li>
+            <li>Не толкаем самую дорогую модель без сценария.</li>
+            <li>Показываем, за что человек доплачивает: размер, комфорт, безопасность, тюнинг, фальшборты.</li>
+          </ul>
+        </section>
+
+        <section class="half">
+          <span class="tag green">Главный принцип</span>
+          <h2>Менеджер ведет диалог</h2>
+          <p class="lead">Клиент должен попасть не на оператора, а на лодочного эксперта. Менеджер в позиции силы: спокойно выясняет задачу, предлагает решение и ведет к следующему шагу.</p>
+          <div class="formula">
+            <span>Задача</span>
+            <span>Блок лодок</span>
+            <span>Комплектация</span>
+            <span>Рычаг</span>
+            <span>Действие</span>
+          </div>
+        </section>
+
+        <section id="models">
+          <span class="tag">Модельный ряд</span>
+          <h2>Учить блоками, не кашей</h2>
+          <p class="lead">Новичку не нужно начинать с длинной таблицы ТТХ. Сначала он должен понять блоки и сценарии. Внутри базовых блоков главное различие для клиента - длина и вес.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>Малые</h3>
+              <div class="model-list"><span>300 НД</span><span>330 НД</span><span>360 НД</span></div>
+              <p>Один смысловой блок. Не раздувать микроскопические отличия ТТХ. В продаже важнее сценарий: один/двое, перевозка, мотор, водоем.</p>
+            </article>
+            <article class="card">
+              <h3>Средние</h3>
+              <div class="model-list"><span>350 НД</span><span>370 НД</span><span>380 НД</span></div>
+              <p>Универсальный средний блок. Объяснять компактно: размер, запас места, вес, условия использования.</p>
+            </article>
+            <article class="card">
+              <h3>Большие</h3>
+              <div class="model-list"><span>390 НД</span><span>410 НД</span><span>430 НД</span></div>
+              <p>Для тех, кому нужен запас места, груз, комфорт, устойчивость, дальние выходы, больше людей или вещей.</p>
+            </article>
+            <article class="card">
+              <h3>Отдельные модели</h3>
+              <div class="model-list"><span>270 НД</span><span>450 НД</span></div>
+              <p>270 НД - отдельная малая плоскодонка. 450 НД - отдельная большая модель. Не смешивать их с основными блоками.</p>
+            </article>
+            <article class="card">
+              <h3>Кашалот</h3>
+              <div class="model-list"><span>370</span><span>390</span></div>
+              <p>Отдельная ветка. Главное отличие - расширенная носовая часть. ТТХ и аргументы держать отдельно от обычных 370/390.</p>
+            </article>
+            <article class="card">
+              <h3>Фальшборты</h3>
+              <div class="model-list"><span>интегрированные</span><span>дороже</span></div>
+              <p>Предлагать тем, кому важны безопасность, дети, комфорт, защита внутри кокпита. Не продавать как обязательную опцию всем.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="half" id="why">
+          <span class="tag green">Почему покупают</span>
+          <h2>Причины выбора KITT BOATS</h2>
+          <ul>
+            <li>Отзывы и доверие.</li>
+            <li>Качество.</li>
+            <li>Подход к клиенту.</li>
+            <li>Напрямую с завода, без оптовиков.</li>
+            <li>Почти всегда стараемся идти навстречу.</li>
+            <li>Крафтовость и возможность подбирать комплектацию под задачу.</li>
+          </ul>
+        </section>
+
+        <section class="half">
+          <span class="tag">Как говорить</span>
+          <h2>Перевод на язык клиента</h2>
+          <div class="script">Вы покупаете напрямую у производителя, а не у перекупщика.</div>
+          <div class="script">Давайте подберем лодку под ваш сценарий: где ходите, сколько груза, какой мотор, кто будет в лодке.</div>
+          <div class="script">Если вся сумма сейчас неудобна, можно зафиксировать цену предоплатой 5000 руб.</div>
+        </section>
+
+        <section id="competitors">
+          <span class="tag gold">Сравнение</span>
+          <h2>С кем сравнивают</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Конкурент</th>
+                <th>Что помнить менеджеру</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>River Boats</td>
+                <td>Близкий конкурент по логике производства и тюнинга. Слух про "директора разошлись" не подтверждать, это не наша позиция.</td>
+              </tr>
+              <tr>
+                <td>Big Boat</td>
+                <td>Сравнивать спокойно: цена, производство, комплектация, отзывы, сроки, тюнинг.</td>
+              </tr>
+              <tr>
+                <td>Гладиатор</td>
+                <td>Не ругать. Возвращать клиента к его задаче и нашим сильным сторонам.</td>
+              </tr>
+              <tr>
+                <td>Боцман</td>
+                <td>Уточнять, что именно сравнивает клиент: размер, цена, наличие, доставка, гарантия.</td>
+              </tr>
+              <tr>
+                <td>Флагман</td>
+                <td>Держать позицию: KITT BOATS - завод напрямую, крафтовость, подход, отзывы.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="wide" id="objections">
+          <span class="tag red">Возражения</span>
+          <h2>Что реально мешает покупке</h2>
+          <p class="lead">Типовых возражений немного. Почти никогда не главные причины: "дорого", "плохие отзывы", "не подошли ТТХ".</p>
+          <div class="cards">
+            <article class="card">
+              <h3>Сроки</h3>
+              <p>В сезон клиента может не устраивать изготовление 3-4 недели или отсутствие наличия. Срок не прятать, ожидания фиксировать честно.</p>
+            </article>
+            <article class="card">
+              <h3>Недоверие</h3>
+              <p>Продажи по России вызывают страх предоплаты. Снимаем тревогу фактами: завод, отзывы, документы, фото/видео, понятная схема.</p>
+            </article>
+            <article class="card">
+              <h3>Кредит / бюджет</h3>
+              <p>Если кредит не одобрили или денег нет, не давить. Фиксировать повторное касание и искать рабочую схему, если она возможна.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="third" id="dontpromise">
+          <span class="tag red">Запрещено</span>
+          <h2>Что нельзя обещать</h2>
+          <ul>
+            <li>Что сделаем вообще все, что хочет клиент.</li>
+            <li>Что сдадим заказ строго дата в дату.</li>
+            <li>Что в сезон все будет быстро, если производство не подтвердило.</li>
+            <li>Оплату при получении, если это не согласовано.</li>
+          </ul>
+          <div class="warning">Производство может сдвинуться до 1 недели. Менеджер обязан оставлять плавающий запас.</div>
+        </section>
+
+        <section class="wide" id="dialog">
+          <span class="tag green">Диалог</span>
+          <h2>Структура сильной продажи</h2>
+          <ol>
+            <li>Взять управление разговором и задать рамку.</li>
+            <li>Выяснить сценарий: рыбалка/охота, люди, груз, водоем, мотор, перевозка.</li>
+            <li>Предложить не одну модель из головы, а подходящий блок.</li>
+            <li>Показать, за что клиент доплачивает: размер, комфорт, безопасность, тюнинг.</li>
+            <li>Использовать рычаг: отзывы, акция, фиксация цены, завод напрямую, наличие/срок.</li>
+            <li>Закончить конкретным действием.</li>
+          </ol>
+          <div class="do-dont">
+            <article class="card yes">
+              <h3>Так надо</h3>
+              <p>"Если по комплектации все понятно, давайте сформирую заказ и пришлю счет. Цена будет зафиксирована."</p>
+            </article>
+            <article class="card no">
+              <h3>Так нельзя</h3>
+              <p>"Ну подумайте, если что пишите." Это не следующий шаг, а отпускание горячего клиента в пустоту.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="levers">
+          <span class="tag green">Рычаги</span>
+          <h2>Компания дает много поводов закрывать</h2>
+          <p class="lead">KITT BOATS легко продавать, если менеджер берет в работу рычаги. База теплая или горячая, есть отзывы, акции, завод напрямую и крафтовость.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>5000 руб для фиксации цены</h3>
+              <p>Маленький первый шаг. Клиент уже "у нас", цена закреплена, риск ухода думать ниже.</p>
+            </article>
+            <article class="card">
+              <h3>Отзывы</h3>
+              <p>Клиент среднего сегмента часто покупает через доверие. Отзывы - не украшение, а рабочий аргумент.</p>
+            </article>
+            <article class="card">
+              <h3>Завод напрямую</h3>
+              <p>Без оптовиков. Можно обсуждать комплектацию и нюансы ближе к задаче клиента.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="mistakes">
+          <span class="tag red">Ошибки</span>
+          <h2>Что новичок не должен повторять</h2>
+          <div class="cards">
+            <article class="card">
+              <h3>Не работает с базой</h3>
+              <p>Только день в день - слабая стратегия. Нужно возвращать тех, кто думал, сравнивал, ждал денег или сезона.</p>
+            </article>
+            <article class="card">
+              <h3>Нет призыва к действию</h3>
+              <p>Разговор должен вести к счету, заказу, предоплате, оплате или назначенному касанию.</p>
+            </article>
+            <article class="card">
+              <h3>Нет рамки по времени</h3>
+              <p>На производстве не водить клиента 40 минут без цели. Дать рамку: "У нас 15 минут, обычно хватает определиться с заказом".</p>
+            </article>
+            <article class="card">
+              <h3>Вяло и медленно</h3>
+              <p>Сделка не должна течь сама. Менеджер держит темп, энергию и инициативу.</p>
+            </article>
+            <article class="card">
+              <h3>Не использует рычаги</h3>
+              <p>Не предложил фиксацию цены, отзывы, акцию, следующий шаг - сам дал клиенту уйти думать.</p>
+            </article>
+            <article class="card">
+              <h3>Фокус на негативе</h3>
+              <p>Бывают не твои клиенты. Не застревать, не выгорать, не превращать один сложный разговор в стиль работы.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="check">
+          <span class="tag">Самопроверка</span>
+          <h2>Новичок готов к базе, если может ответить</h2>
+          <div class="checklist">
+            <label class="check"><input type="checkbox"><span>Кто базовый клиент KITT BOATS и почему ему нельзя продавать пустой "премиум"?</span></label>
+            <label class="check"><input type="checkbox"><span>Какие модели входят в малый, средний и большой блоки?</span></label>
+            <label class="check"><input type="checkbox"><span>Чем отдельно выделяются Кашалот и лодки с фальшбортами?</span></label>
+            <label class="check"><input type="checkbox"><span>Почему покупают KITT BOATS: назвать минимум 5 причин.</span></label>
+            <label class="check"><input type="checkbox"><span>Какие реальные возражения встречаются чаще всего?</span></label>
+            <label class="check"><input type="checkbox"><span>Что менеджеру запрещено обещать?</span></label>
+            <label class="check"><input type="checkbox"><span>Какими фразами закрывать клиента на следующий шаг?</span></label>
+            <label class="check"><input type="checkbox"><span>Как использовать 5000 руб для фиксации цены?</span></label>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        Версия: 2026-04-25. Источник: внутренняя логика продаж Анатолия + продуктовая база KITT BOATS. Точные ТТХ сверять с актуальным сайтом и производством.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const checks = document.querySelectorAll('input[type="checkbox"]');
+    checks.forEach((box, index) => {
+      const key = `kitt-quick-start-check-${index}`;
+      box.checked = localStorage.getItem(key) === '1';
+      box.addEventListener('change', () => {
+        localStorage.setItem(key, box.checked ? '1' : '0');
+      });
+    });
+  </script>
+</body>
+</html>
